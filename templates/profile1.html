@@ -1,0 +1,324 @@
+{% load static%}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Docmed</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/gijgo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+    <!-- header-start -->
+    <header>
+        <div class="header-area ">
+            <div class="header-top_area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6 ">
+                            <div class="social_media_links">
+                                <a href="#">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="short_contact_list">
+                                <ul>
+                                    <li><a href="#"> <i class="fa fa-envelope"></i> info@docmed.com</a></li>
+                                    <li><a href="#"> <i class="fa fa-phone"></i> 160160</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sticky-header" class="main-header-area">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3 col-lg-2">
+                            <div class="logo">
+                                <a href="">
+                                    <img src="{% static 'img/logo.png' %}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-7">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="active" href="/home">Home</a></li>
+                                        <li><a href="/about">About Us</a></li>
+                                        <li><a href="/contact">Contact Us</a></li>
+                                        {%if user.is_authenticated%}
+                                        <li><p>Hello {{user.first_name}}</p></li>
+                                        <li><a href="/registration/logout">Logout</a></li>
+                                        <li><a href="/registration/profile">Profile</a></li>
+                                        <li><a href="/registration/appointment">Your Appointment</a></li>
+                                        {%if user.profession != 'doctor'%}
+                                        <li><a href="/registration/invoice">Payment Invoices</a></li>
+                                        {%endif%}
+                                        {%else%}
+                                        <li><a href="/registration/register">Register</a></li>
+                                        <li><a href="/registration/login">Login</a></li>
+                                        {%endif%}
+                                        {%if user.profession != 'reception'%}
+                                        <li><a href="/registration/medical">Medical Advices</a></li>
+                                        {%endif%}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {%endif%}
+    
+    {%if user.is_authenticated%}
+    <div class="col-lg-8" style="margin: auto;">
+        <form class="form-contact contact_form" action="profile" method="POST" id="contactForm" novalidate="novalidate" enctype="multipart/form-data">
+            {% csrf_token%}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>First Name</p>  
+                        <input class="form-control valid" name="fname" id="name" type="text" value={{user.first_name}} onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your First Name'" placeholder="Enter your First Name" readonly/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Last Name</p>  
+                        <input class="form-control valid" name="lname" id="name" type="text" value={{user.last_name}} onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your Last Name'" placeholder="Enter your Last Name" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Email</p>  
+                        <input class="form-control valid" name="username" id="name" type="text" value={{user.username}} onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your First Name'" placeholder="Enter your First Name" readonly/>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Profession</p>  
+                        <input class="form-control valid" name="profession" id="name" type="text" value={{user.profession}} onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your Last Name'" placeholder="Enter your Last Name" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Phone Number</p>  
+                        <input class="form-control valid" name="phone" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your Phone Number'" placeholder="Enter your Phone Number" required />
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Insurance</p>  
+                        <input type="radio" id="yes" name="insurance" value="yes">
+                        <label for="yes">Yes, I have an Insurance</label><br>
+                        <input type="radio" id="no" name="insurance" value="yes">
+                        <label for="no">I don't have an Insurance</label><br>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Gender</p>
+                        <input type="radio" id="male" name="gender" value="male">
+                        <label for="male">Male</label><br>
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label><br>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Age</p>  
+                        <input class="form-control valid" name="age" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your Age'" placeholder="Enter your Age" required />    
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="form-group">
+                            <p>Appartment Name</p>  
+                            <input class="form-control valid" name="aptname" id="name" type="textarea" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your Door Number and Appartment Name'" placeholder="Door Number and Appartment Name" required />
+                        </div>
+                        <div class="form-group">
+                            <p>Street</p>  
+                            <input class="form-control valid" name="stname" id="name" type="textarea"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your street'" placeholder="Enter your street name" required />
+                        </div>
+                        <div class="form-group">
+                            <p>City</p>  
+                            <input class="form-control valid" name="cityname" id="name" type="textarea"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your city'" placeholder="Enter your city" required />
+                        </div>
+                        <div class="form-group">
+                            <p>District</p>  
+                            <input class="form-control valid" name="distname" id="name" type="textarea" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your district'" placeholder="Enter your district" required />
+                        </div>
+                        <div class="form-group">
+                            <p>State</p>  
+                            <input class="form-control valid" name="statename" id="name" type="textarea" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your state'" placeholder="Enter your state" required />
+                        </div>
+                        <div class="form-group">
+                            <p>Country</p>  
+                            <input class="form-control valid" name="countryname" id="name" type="textarea" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your country'" placeholder="Enter your country" required />
+                        </div>
+                            
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Blood Group</p>
+                        <input type="radio" id="apositive" name="bloodgroup" value="apositive">
+                        <label for="apositive">A+</label><br>
+                        <input type="radio" id="anegative" name="bloodgroup" value="anegative">
+                        <label for="anegative">A-</label><br>
+                        <input type="radio" id="bpositive" name="bloodgroup" value="bpositive">
+                        <label for="bpositive">B+</label><br>
+                        <input type="radio" id="bnegative" name="bloodgroup" value="bnegative">
+                        <label for="bnegative">A+</label><br>
+                        <input type="radio" id="abpositive" name="bloodgroup" value="abpositive">
+                        <label for="abpositive">AB+</label><br>
+                        <input type="radio" id="abnegative" name="bloodgroup" value="abnegative">
+                        <label for="abnegative">AB-</label><br>
+                        <input type="radio" id="opositive" name="bloodgroup" value="opositive">
+                        <label for="opositive">O+</label><br>
+                        <input type="radio" id="onegative" name="bloodgroup" value="onegative">
+                        <label for="onegative">A-</label><br>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <p>Medical History Report</p>  
+                        <input class="form-control valid" name="medicalhistory" id="name" type="file" onfocus="this.placeholder = ''" onblur="this.placeholder = 'UploadFile'" placeholder="UploadFile"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="submit" class="button button-contactForm boxed-btn" value="Submit" style="height: 60px; text-align: center; background-color: skyblue;">  
+                </div>
+            </div>
+        </form>
+    </div>
+    {%else%}
+    Kindly login first
+    {%endif%}
+    <!-- welcome_docmed_area_start -->
+<!-- footer start -->
+    <footer class="footer">
+            <div class="copy-right_text">
+                <div class="container">
+                    <div class="footer_border"></div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <p class="copy_right text-center">
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | | Made for Demonstration and Copyrights belong to Content Creators
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+<!-- footer end  -->
+    <!-- link that opens popup -->
+
+   
+
+    <!-- JS here -->
+    <script src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/ajax-form.js' %}"></script>
+    <script src="{% static 'js/waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/scrollIt.js' %}"></script>
+    <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/gijgo.min.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'js/jquery.form.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        $('#datepicker').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+                rightIcon: '<span class="fa fa-caret-down"></span>'
+            }
+        });
+        $('#datepicker2').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+                rightIcon: '<span class="fa fa-caret-down"></span>'
+            }
+
+        });
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+    </script>
+</body>
+
+</html>
